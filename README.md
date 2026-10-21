@@ -51,7 +51,31 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
 
 不需要永久修改系统执行策略。若应用装在受保护的目录而出现写入拒绝，请将软件安装到当前用户可写的目录；本项目不自动提权。
 
-也可以显式指定所有参数，先预览改动：
+### 交给 AI 安装
+
+如果由其他 AI、远程助手或自动化终端来安装，可以把下面的提示词和本仓库地址一起交给它：
+
+```text
+请在这台 Windows 电脑上安装
+https://github.com/cz649cx92c-cpu/agentsanywhere-workbuddy
+
+先只读检查：Windows 版本、Git、Node.js（需要 24+）、WorkBuddyAI.exe、
+Agents Anywhere 安装根目录、Connector 目录，以及我要绑定的项目目录。
+如果缺少 WorkBuddy 或 Agents Anywhere，请先停止并告诉我，不要代替我注册、登录或索要密码。
+
+确认路径后：
+1. 克隆仓库并查看 README；
+2. 运行 install.ps1，先使用 -WhatIf 预览；
+3. 询问我是否启用掉线监控：off、check 或 repair；
+4. 预览无误后再去掉 -WhatIf 执行安装；
+5. 运行 npm test 和 node .\\scripts\\monitor.cjs --once；
+6. 报告修改的路径、监控模式、验证结果和仍需我在界面完成的步骤。
+
+不要把账号密码、Token、聊天记录、认证端点或 .local/ 文件提交到 Git。
+不要强制关闭 WorkBuddy，不要重启系统，不要创建会话或发送消息。
+```
+
+AI 需要用户确认的内容只有本机路径、目标项目和监控模式。它不能代替用户完成 WorkBuddy 或自托管 Agents Anywhere 的登录，也不能在没有明确授权时修改服务端。建议 AI 先执行预览：
 
 ```powershell
 .\install.ps1 `
@@ -62,7 +86,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
   -WhatIf
 ```
 
-确认路径后去掉 `-WhatIf` 安装。目录自动发现不适合你的安装布局时，可用 `-ConnectorPath` 指定一个或多个 **connector Python 包目录**：其中必须有 `runtimes\providers.py`、`server\protocol.py` 和 `runtime_protocol\supervisor.py`。可用 `-AgentsAnywhereData` 指定含 `connector-source` 的数据目录；`-NodePath`、`-StateDir` 也可以覆盖默认值。
+确认预览内容后，去掉 `-WhatIf` 执行正式安装。安装完成后，AI 应重新启动 Agents Anywhere，在本机设备中刷新并添加 WorkBuddy 运行时；这一步可能需要用户在桌面界面确认。出现错误时，应保留终端输出，先运行 `.\uninstall.ps1 -WhatIf` 检查可回滚范围，不要直接删除仓库或 `.local/` 状态目录。
+
+目录自动发现不适合你的安装布局时，可用 `-ConnectorPath` 指定一个或多个 **connector Python 包目录**：其中必须有 `runtimes\providers.py`、`server\protocol.py` 和 `runtime_protocol\supervisor.py`。可用 `-AgentsAnywhereData` 指定含 `connector-source` 的数据目录；`-NodePath`、`-StateDir` 也可以覆盖默认值。
 
 安装前请退出 WorkBuddy 和 Agents Anywhere，等待后台进程退出，避免边运行边更新文件。安装器会修改发现的 bundled / managed Connector 注册及协议文件，添加 `workbuddy` 包，并保存原文件；遇到未知结构会停止。
 
