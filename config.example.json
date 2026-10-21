@@ -1,0 +1,8 @@
+{
+  "workbuddyExe": "C:\\Apps\\WorkBuddy\\WorkBuddyAI.exe",
+  "workspace": "C:\\Projects\\WorkBuddy",
+  "nodePath": "C:\\Program Files\\nodejs\\node.exe",
+  "stateDir": "C:\\Users\\YOUR_NAME\\AppData\\Local\\AgentsAnywhereWorkBuddy",
+  "connectorPaths": ["C:\\Apps\\Agents Anywhere\\resources\\connector\\connector"],
+  "monitorMode": "off"
+}

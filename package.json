@@ -1,0 +1,12 @@
+{
+  "name": "agentsanywhere-workbuddy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Windows WorkBuddy native conversation bridge for self-hosted Agents Anywhere",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --require ./tests/bootstrap.cjs --test tests/*.test.cjs",
+    "start": "node bridge/launch.cjs",
+    "status": "node scripts/monitor.cjs --once"
+  }
+}

@@ -1,0 +1,16 @@
+config.local.json
+.local/
+backups/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+.test-tmp/
+endpoint.json
+operations.json
+installation.json
+.env*
+*.asar
+*.exe
+*.zip
+*-snapshot.json
